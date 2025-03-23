@@ -1,0 +1,30 @@
+name: Build & Push to GHCR
+
+on:
+  push:
+    branches:
+      - main  # Trigger on main branch updates
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write  # Required for pushing to GHCR
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/cf-sf-apex-cache-builder:latest \
+                       -t ghcr.io/${{ github.repository }}/cf-sf-apex-cache-builder:${{ github.sha }} .
+
+      - name: Push Docker images
+        run: |
+          docker push ghcr.io/${{ github.repository }}/cf-sf-apex-cache-builder:latest
+          docker push ghcr.io/${{ github.repository }}/cf-sf-apex-cache-builder:${{ github.sha }}
