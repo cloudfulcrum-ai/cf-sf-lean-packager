@@ -1,8 +1,10 @@
 # Lean Packager
 
+    This repository contain GitHub Action designed to create salesforce metadata package with Lean & Delta Deploy changes. The action is packaged as a Docker container and provides a specialized function.
+    
 **cf-sf-lean-packager**
 
-    Packages and prepares Salesforce metadata for deployment.
+    Creates a metadata package with Lean & Delta Deploy changes.
 
 * **Inputs**:
     * **source-directory**: Path to metadata source files.
@@ -15,7 +17,7 @@
 Usage Example:
 
     - name: Package Salesforce Metadata
-      uses: ghcr.io/itfulcrum/cf-sf-lean-packager@latest
+      uses: ghcr.io/cloudfulcrum-ai/cf-sf-lean-packager@latest
       with:
           source-directory: "./src"
           package-name: "MyPackage.zip"
